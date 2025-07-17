@@ -57,9 +57,21 @@
 	return if_no_id
 
 //repurposed proc. Now it combines get_id_name() and get_face_name() to determine a mob's name variable. Made into a separate proc as it'll be useful elsewhere
-/mob/living/carbon/human/get_visible_name(add_id_name = TRUE)
+/mob/living/carbon/human/get_visible_name(add_id_name = TRUE, force_real_name = FALSE)
 	var/face_name = get_face_name("")
 	var/id_name = get_id_name("")
+	if (force_real_name)
+		var/fake_name
+		if (face_name && face_name != real_name)
+			fake_name = face_name
+		if(add_id_name && id_name && id_name != real_name)
+			if (!isnull(fake_name) && id_name != face_name)
+				fake_name = "[fake_name]/[id_name]"
+			else
+				fake_name = id_name
+		if (HAS_TRAIT(src, TRAIT_UNKNOWN) || (!face_name && !id_name))
+			fake_name = "Unknown"
+		return "[real_name][fake_name ? " (as [fake_name])" : ""]"
 	if(HAS_TRAIT(src, TRAIT_UNKNOWN))
 		return "Unknown"
 	if(name_override)
