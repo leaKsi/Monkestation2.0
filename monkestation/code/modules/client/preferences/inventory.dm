@@ -33,9 +33,13 @@
 	if(!ckey || !SSdbcore.IsConnected())
 		return FALSE
 
+	if (amount < 0 && metacoins + amount < 0)
+		message_admins("[ADMIN_LOOKUPFLW(parent)] attempted to adjust their Monkecoins in a way that would result in a negative balance. Possible exploit.")
+		CRASH("Attempted to adjust Monkecoins in a way that would result in a negative balance. Possible exploit.")
+
 	if(!max_round_coins && respects_roundcap)
 		to_chat(parent, "You've hit the Monkecoin limit for this shift, please try again next shift.")
-		return
+		return FALSE
 
 	if(respects_roundcap)
 		if(max_round_coins <= amount)

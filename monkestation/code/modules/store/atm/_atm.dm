@@ -156,7 +156,13 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/atm, 30)
 
 	if(!withdraw_amount)
 		return
+
+	if (!living_user.client.prefs.has_coins(withdraw_amount))
+		to_chat(living_user, span_warning("Not enough Monkecoins."))
+		return
+
 	withdraw_amount = clamp(withdraw_amount, 0, current_balance)
+
 	if(!living_user.client.prefs.adjust_metacoins(living_user.client.ckey, -withdraw_amount, "Withdrew from an ATM", donator_multiplier = FALSE))
 		return
 
@@ -172,11 +178,11 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/atm, 30)
 		return
 
 	var/current_balance = living_user.client.prefs.metacoins
-	if(tgui_alert(living_user, "Are you sure you would like to purchase a lootbox for [LOOTBOX_COST] monkecoins?", "Balance: [current_balance]", list("Yes", "No")) != "Yes")
+	if(tgui_alert(living_user, "Are you sure you would like to purchase a lootbox for [LOOTBOX_COST] Monkecoins?", "Balance: [current_balance]", list("Yes", "No")) != "Yes")
 		return
 
 	if(!living_user.client.prefs.has_coins(LOOTBOX_COST))
-		to_chat(living_user, span_warning("Not enough monkecoins."))
+		to_chat(living_user, span_warning("Not enough Monkecoins."))
 		return
 
 	if(!living_user.client.prefs.adjust_metacoins(living_user.client.ckey, -LOOTBOX_COST, "Bought a lootbox"))

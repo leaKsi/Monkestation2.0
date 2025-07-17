@@ -20,7 +20,7 @@
 		to_chat(src, span_warning("You do not have enough Monkecoins to buy a lootbox!"))
 		lootbox_prompt = FALSE
 		return
-	switch(tgui_alert(src, "Would you like to purchase a lootbox? 5K", "Buy a lootbox!", list("Yes", "No")))
+	switch(tgui_alert(src, "Would you like to purchase a lootbox for [LOOTBOX_COST] Monkecoins?", "Buy a lootbox!", list("Yes", "No")))
 		if("Yes")
 			attempt_lootbox_buy()
 			lootbox_prompt = FALSE
