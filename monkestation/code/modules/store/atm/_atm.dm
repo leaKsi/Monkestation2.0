@@ -157,11 +157,11 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/atm, 30)
 	if(!withdraw_amount)
 		return
 
+	withdraw_amount = clamp(withdraw_amount, 0, current_balance)
+
 	if (!living_user.client.prefs.has_coins(withdraw_amount))
 		to_chat(living_user, span_warning("Not enough Monkecoins."))
 		return
-
-	withdraw_amount = clamp(withdraw_amount, 0, current_balance)
 
 	if(!living_user.client.prefs.adjust_metacoins(living_user.client.ckey, -withdraw_amount, "Withdrew from an ATM", donator_multiplier = FALSE))
 		return
